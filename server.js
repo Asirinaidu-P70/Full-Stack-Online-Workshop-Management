@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' })); // Higher limit for base64 thumbnails
-app.use(express.static('public')); // Serve static files from public folder
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from public folder
 
 // Database
 let users = [
@@ -166,4 +167,8 @@ app.get('/api/workshops/:id/registrants/csv', (req, res) => {
 
 function escapeCsv(v) { return (`"${String(v || '').replace(/"/g, '""')}"`); }
 
-app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT}`));
+if (require.main === module) {
+    app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT}`));
+}
+
+module.exports = app;
