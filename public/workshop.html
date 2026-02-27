@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Details | WorkshopHub Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body data-page="workshop-detail">
+    <header class="site-header">
+        <a class="brand" href="/index.html">WorkshopHub Pro</a>
+        <nav class="site-nav">
+            <a href="/index.html">Home</a>
+            <a href="/workshops.html">Workshops</a>
+            <a id="navDashboard" href="/dashboard.html">Dashboard</a>
+            <span id="navWelcome" class="welcome-text"></span>
+            <a id="navSignIn" class="btn btn-primary btn-sm" href="/signin.html">Sign In</a>
+            <button id="navLogout" class="btn btn-secondary btn-sm" type="button">Logout</button>
+        </nav>
+    </header>
+
+    <main class="section">
+        <div class="container">
+            <a class="text-link" href="/workshops.html">&larr; Back to workshops</a>
+
+            <section id="workshopDetailCard" class="card detail-card">
+                <p>Loading workshop details...</p>
+            </section>
+
+            <section class="card">
+                <h2>Reviews</h2>
+                <div id="reviewsList" class="stack-list"></div>
+
+                <form id="reviewForm" class="review-form">
+                    <label for="reviewRating">Rating</label>
+                    <select id="reviewRating" class="input" required>
+                        <option value="">Select rating</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Average</option>
+                        <option value="2">2 - Needs Improvement</option>
+                        <option value="1">1 - Poor</option>
+                    </select>
+
+                    <label for="reviewText">Review</label>
+                    <textarea id="reviewText" class="input" rows="4" placeholder="Share your experience"></textarea>
+
+                    <button class="btn btn-primary" type="submit">Post Review</button>
+                </form>
+                <p id="reviewMessage" class="form-message"></p>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshops | WorkshopHub Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body data-page="workshops">
+    <header class="site-header">
+        <a class="brand" href="/index.html">WorkshopHub Pro</a>
+        <nav class="site-nav">
+            <a href="/index.html">Home</a>
+            <a href="/workshops.html">Workshops</a>
+            <a id="navDashboard" href="/dashboard.html">Dashboard</a>
+            <span id="navWelcome" class="welcome-text"></span>
+            <a id="navSignIn" class="btn btn-primary btn-sm" href="/signin.html">Sign In</a>
+            <button id="navLogout" class="btn btn-secondary btn-sm" type="button">Logout</button>
+        </nav>
+    </header>
+
+    <main class="section">
+        <div class="container">
+            <h1>All Workshops</h1>
+            <p class="muted">Open details pages, enroll as user, and manage workshops from the dashboard as admin.</p>
+
+            <div class="filter-bar">
+                <input id="searchInput" class="input" type="text" placeholder="Search title or instructor">
+                <select id="categoryFilter" class="input">
+                    <option value="">All Categories</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Mobile Development">Mobile Development</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Cloud Computing">Cloud Computing</option>
+                    <option value="Design">Design</option>
+                    <option value="Project Management">Project Management</option>
+                </select>
+                <select id="statusFilter" class="input">
+                    <option value="">All Status</option>
+                    <option value="upcoming">Upcoming</option>
+                    <option value="completed">Completed</option>
+                </select>
+                <button id="applyFilters" class="btn btn-primary btn-sm" type="button">Apply</button>
+                <button id="clearFilters" class="btn btn-secondary btn-sm" type="button">Clear</button>
+            </div>
+
+            <p id="workshopsMessage" class="form-message"></p>
+            <div id="workshopsList" class="workshop-grid"></div>
+        </div>
+    </main>
+</body>
+</html>

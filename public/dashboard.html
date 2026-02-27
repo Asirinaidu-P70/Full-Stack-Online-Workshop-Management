@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | WorkshopHub Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body data-page="dashboard">
+    <header class="site-header">
+        <a class="brand" href="/index.html">WorkshopHub Pro</a>
+        <nav class="site-nav">
+            <a href="/index.html">Home</a>
+            <a href="/workshops.html">Workshops</a>
+            <a id="navDashboard" href="/dashboard.html">Dashboard</a>
+            <span id="navWelcome" class="welcome-text"></span>
+            <a id="navSignIn" class="btn btn-primary btn-sm" href="/signin.html">Sign In</a>
+            <button id="navLogout" class="btn btn-secondary btn-sm" type="button">Logout</button>
+        </nav>
+    </header>
+
+    <main class="section">
+        <div class="container">
+            <h1>Dashboard</h1>
+            <p id="dashboardRole" class="muted"></p>
+
+            <div class="two-col">
+                <section class="card">
+                    <h2>Profile</h2>
+                    <form id="profileForm">
+                        <label for="profileName">Name</label>
+                        <input id="profileName" class="input" type="text" required>
+
+                        <label for="profileEmail">Email</label>
+                        <input id="profileEmail" class="input" type="email" disabled>
+
+                        <label for="profilePhone">Phone</label>
+                        <input id="profilePhone" class="input" type="text">
+
+                        <button class="btn btn-primary" type="submit">Save Profile</button>
+                    </form>
+                    <p id="profileMessage" class="form-message"></p>
+                </section>
+
+                <section id="studentPanel" class="card">
+                    <h2>My Enrollments</h2>
+                    <div id="enrollmentList" class="stack-list"></div>
+                </section>
+            </div>
+
+            <section id="adminPanel" class="card" style="display: none;">
+                <h2>Admin Workshop Management</h2>
+
+                <form id="createWorkshopForm" class="grid-form">
+                    <div>
+                        <label for="newTitle">Title</label>
+                        <input id="newTitle" class="input" type="text" required>
+                    </div>
+                    <div>
+                        <label for="newCategory">Category</label>
+                        <select id="newCategory" class="input">
+                            <option value="Web Development">Web Development</option>
+                            <option value="Mobile Development">Mobile Development</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="Cloud Computing">Cloud Computing</option>
+                            <option value="Design">Design</option>
+                            <option value="Project Management">Project Management</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="newInstructor">Instructor</label>
+                        <input id="newInstructor" class="input" type="text" required>
+                    </div>
+                    <div>
+                        <label for="newDate">Date</label>
+                        <input id="newDate" class="input" type="text" placeholder="Apr 10, 2026">
+                    </div>
+                    <div>
+                        <label for="newCapacity">Capacity</label>
+                        <input id="newCapacity" class="input" type="number" min="1" value="50" required>
+                    </div>
+                    <div>
+                        <label for="newThumbnail">Thumbnail URL (Optional)</label>
+                        <input id="newThumbnail" class="input" type="text" placeholder="https://...">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create Workshop</button>
+                </form>
+                <p id="adminMessage" class="form-message"></p>
+
+                <h3>Existing Workshops</h3>
+                <div id="adminWorkshopList" class="stack-list"></div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

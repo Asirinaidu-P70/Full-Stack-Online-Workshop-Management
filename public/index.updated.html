@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkshopHub | Premium Learning Platform</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #4f46e5; --secondary: #0f172a; --bg: #f8fafc;
+            --white: #ffffff; --text-muted: #64748b; --border: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--secondary); overflow-x: hidden; }
+
+        /* Navigation */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 1.5rem 8%; background: var(--white); position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--secondary); text-decoration: none;}
+        .logo i { color: var(--primary); }
+        .nav-links { display: flex; gap: 30px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; cursor: pointer; }
+        .btn-signin { background: var(--secondary); color: var(--white); padding: 10px 24px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; }
+
+        /* Hero */
+        .hero { background: var(--primary); padding: 100px 8%; text-align: center; color: var(--white); }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
+        .hero p { font-size: 1.25rem; opacity: 0.9; max-width: 800px; margin: 0 auto 40px; }
+        .btn-white { background: var(--white); color: var(--primary); padding: 15px 35px; border-radius: 8px; font-weight: 700; text-decoration: none; display: inline-block; }
+
+        /* Sections */
+        .section { padding: 80px 8%; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 50px; }
+        .card { background: var(--white); padding: 40px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .card i { color: var(--primary); margin-bottom: 20px; display: block; }
+
+        /* Login Page (Matches uploaded image style) */
+        .auth-container { 
+            min-height: 90vh; display: flex; align-items: center; justify-content: center; 
+            background: #eff6ff; padding: 20px; flex-direction: column;
+        }
+        .auth-card { background: var(--white); width: 100%; max-width: 450px; border-radius: 20px; padding: 40px; box-shadow: 0 10px 15px rgba(0,0,0,0.05); }
+        .role-toggle { display: flex; background: #f1f5f9; border-radius: 12px; padding: 5px; margin-bottom: 30px; }
+        .role-btn { flex: 1; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; background: transparent; transition: 0.3s;}
+        .role-btn.active { background: var(--white); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .form-group { position: relative; margin-bottom: 20px; }
+        .form-group input { width: 100%; padding: 14px 14px 14px 45px; border: 1px solid var(--border); border-radius: 12px; background: #f8fafc; font-size: 1rem; }
+        .form-group i { position: absolute; left: 15px; top: 16px; color: var(--text-muted); }
+        .btn-auth { width: 100%; padding: 16px; background: var(--secondary); color: var(--white); border-radius: 12px; border: none; font-weight: 700; cursor: pointer; }
+        .demo-box { background: #f0f9ff; padding: 20px; border-radius: 12px; border: 1px solid #bae6fd; margin-top: 30px; text-align: left; }
+
+        /* Workshop Grid */
+        .ws-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
+        .ws-card { background: var(--white); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); text-align: left;}
+        .ws-img { height: 200px; background: #cbd5e1; }
+        .ws-body { padding: 25px; }
+
+        /* View Control */
+        .view { display: none; }
+        .view.active { display: block; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a class="logo" onclick="showView('home')"><i data-lucide="graduation-cap"></i> WorkshopHub</a>
+        <div class="nav-links">
+            <a onclick="showView('home')">Home</a>
+            <a onclick="showView('workshops')">Workshops</a>
+            <button id="authBtn" class="btn-signin" onclick="showView('auth')">Sign In</button>
+        </div>
+    </nav>
+
+    <section id="homeView" class="view active">
+        <div class="hero">
+            <h1>Transform Your Skills with Expert-Led Workshops</h1>
+            <p>Join interactive online training sessions designed to advance your career and enhance your expertise.</p>
+            <a onclick="showView('workshops')" class="btn-white">Explore Workshops →</a>
+        </div>
+
+        <div class="section">
+            <h2>Why Choose WorkshopHub?</h2>
+            <div class="grid">
+                <div class="card"><i data-lucide="users"></i><h3>Expert Instructors</h3><p>Learn from industry professionals with years of real-world experience.</p></div>
+                <div class="card"><i data-lucide="calendar"></i><h3>Flexible Scheduling</h3><p>Choose from various time slots that fit your schedule.</p></div>
+                <div class="card"><i data-lucide="file-text"></i><h3>Rich Resources</h3><p>Access comprehensive materials and recordings after each session.</p></div>
+                <div class="card"><i data-lucide="award"></i><h3>Certificates</h3><p>Earn certificates of completion to showcase your new skills.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="workshopsView" class="view section">
+        <div id="adminPanel" style="display:none; background: #eef2ff; padding: 30px; border-radius: 16px; margin-bottom: 40px; text-align: left;">
+            <h3 style="margin-bottom:20px;">Admin: Add New Workshop</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <input type="text" id="wsTitle" placeholder="Workshop Title" style="padding:12px; border-radius:8px; border:1px solid #ddd;">
+                <input type="text" id="wsCat" placeholder="Category" style="padding:12px; border-radius:8px; border:1px solid #ddd;">
+            </div>
+            <button class="btn-signin" style="margin-top:15px;" onclick="addWorkshop()">Publish Workshop</button>
+        </div>
+        <div class="ws-grid" id="wsContainer"></div>
+    </section>
+
+    <section id="authView" class="view">
+        <div class="auth-container">
+            <div class="logo" style="margin-bottom: 30px; font-size: 2rem;"></div>
+            <p style="margin-bottom: 30px; color: var(--text-muted);">Sign in to access your workshops and training materials.</p>
+            
+            <div class="auth-card">
+                <h3 style="margin-bottom: 8px;">Sign In</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">Choose your account type to continue.</p>
+                
+                <div class="role-toggle">
+                    <button id="userToggle" class="role-btn active" onclick="setRole('user')">User Account</button>
+                    <button id="adminToggle" class="role-btn" onclick="setRole('admin')">Admin Account</button>
+                </div>
+
+                <div class="form-group">
+                    <i data-lucide="mail"></i>
+                    <input type="email" id="email" placeholder="user@workshop.com">
+                </div>
+                <div class="form-group">
+                    <i data-lucide="lock"></i>
+                    <input type="password" id="pass" placeholder="••••••••">
+                </div>
+                <button class="btn-auth" id="signInBtn" onclick="login()">Sign In as User</button>
+
+                <div class="demo-box">
+                    <p style="font-weight: 700; color: var(--primary); margin-bottom: 5px;">Demo Credentials:</p>
+                    <p id="demoText" style="font-size: 0.85rem; color: #0369a1;">Email: user@workshop.com<br>Password: user123</p>
+                </div>
+            </div>
+            <p style="margin-top: 30px; font-size: 0.9rem;">Don't have an account? <a href="#" style="color: var(--primary); font-weight: 600; text-decoration: none;">Sign up</a></p>
+        </div>
+    </section>
+
+    <script>
+        const API = 'http://localhost:3000/api';
+        let currentRole = 'user';
+        let currentUser = null;
+
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id + 'View').classList.add('active');
+            if(id === 'workshops') loadWorkshops();
+            window.scrollTo(0,0);
+        }
+
+        function setRole(role) {
+            currentRole = role;
+            document.getElementById('userToggle').classList.toggle('active', role === 'user');
+            document.getElementById('adminToggle').classList.toggle('active', role === 'admin');
+            document.getElementById('signInBtn').innerText = `Sign In as ${role.charAt(0).toUpperCase() + role.slice(1)}`;
+            document.getElementById('demoText').innerHTML = role === 'user' ? 
+                'Email: user@workshop.com<br>Password: user123' : 'Email: admin@workshop.com<br>Password: admin123';
+        }
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pass').value;
+            const res = await fetch(`${API}/login`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ email, password, role: currentRole })
+            });
+            if(res.ok) {
+                currentUser = await res.json();
+                document.getElementById('authBtn').innerText = currentUser.name;
+                document.getElementById('adminPanel').style.display = currentUser.role === 'admin' ? 'block' : 'none';
+                showView('home');
+            } else alert("Invalid Credentials");
+        }
+
+        async function loadWorkshops() {
+            const res = await fetch(`${API}/workshops`);
+            const data = await res.json();
+            const container = document.getElementById('wsContainer');
+            container.innerHTML = data.map(ws => `
+                <div class="ws-card">
+                    <div class="ws-img"></div>
+                    <div class="ws-body">
+                        <span style="background:#f1f5f9; padding:4px 10px; border-radius:4px; font-size:0.75rem; font-weight:700;">${ws.category}</span>
+                        <h3 style="margin:10px 0;">${ws.title}</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">${ws.desc}</p>
+                        <div style="font-size:0.85rem; border-top:1px solid #eee; padding-top:15px; display:grid; gap:8px;">
+                            <span>📅 ${ws.date}</span>
+                            <span>👨‍🏫 ${ws.instructor}</span>
+                            <span>👥 ${ws.enrolled}/${ws.capacity} enrolled</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function addWorkshop() {
+            const body = {
+                title: document.getElementById('wsTitle').value,
+                category: document.getElementById('wsCat').value,
+                instructor: currentUser.name,
+                date: "March 25, 2026",
+                desc: "A custom workshop created by admin."
+            };
+            await fetch(`${API}/workshops`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            });
+            loadWorkshops();
+        }
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

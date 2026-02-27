@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | WorkshopHub Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+</head>
+<body data-page="signin">
+    <header class="site-header">
+        <a class="brand" href="/index.html">WorkshopHub Pro</a>
+        <nav class="site-nav">
+            <a href="/index.html">Home</a>
+            <a href="/workshops.html">Workshops</a>
+            <a id="navDashboard" href="/dashboard.html">Dashboard</a>
+            <span id="navWelcome" class="welcome-text"></span>
+            <a id="navSignIn" class="btn btn-primary btn-sm" href="/signin.html">Sign In</a>
+            <button id="navLogout" class="btn btn-secondary btn-sm" type="button">Logout</button>
+        </nav>
+    </header>
+
+    <main class="section">
+        <div class="container auth-wrap">
+            <section class="card auth-card">
+                <h1>Sign In</h1>
+                <p class="muted">Choose account type, then sign in.</p>
+
+                <div class="role-switch">
+                    <button id="roleUser" type="button" class="role-btn active" data-role="student">User Account</button>
+                    <button id="roleAdmin" type="button" class="role-btn" data-role="admin">Admin Account</button>
+                </div>
+
+                <form id="signinForm">
+                    <label for="signinEmail">Email</label>
+                    <input id="signinEmail" class="input" type="email" placeholder="you@example.com" required>
+
+                    <label for="signinPassword">Password</label>
+                    <input id="signinPassword" class="input" type="password" placeholder="Enter your password" required>
+
+                    <button id="signinSubmit" class="btn btn-primary btn-block" type="submit">Sign In as User</button>
+                </form>
+
+                <p id="signinMessage" class="form-message"></p>
+            </section>
+
+            <aside class="card">
+                <h2>Demo Login</h2>
+                <p id="demoCredentials"><strong>User:</strong> user@workshop.com / user123</p>
+                <p class="muted">Switch role to see admin credentials.</p>
+            </aside>
+        </div>
+    </main>
+</body>
+</html>
