@@ -1,6 +1,8 @@
 const API_BASE = "/api";
 const USER_KEY = "wh_user";
 const ENROLLMENTS_KEY = "wh_enrollments";
+const LOADER_MIN_VISIBLE_MS = 900;
+const LOADER_MAX_VISIBLE_MS = 3000;
 const CATEGORY_IMAGE_MAP = {
     "Web Development": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
     "Mobile Development": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
@@ -18,8 +20,17 @@ const STATE = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    const hideLoader = initStartupLoader();
     initNav();
     routePage();
+
+    if (document.readyState === "complete") {
+        hideLoader();
+        return;
+    }
+
+    window.addEventListener("load", hideLoader, { once: true });
+    window.setTimeout(hideLoader, LOADER_MAX_VISIBLE_MS);
 });
 
 function routePage() {
@@ -28,6 +39,45 @@ function routePage() {
     if (page === "workshops") initWorkshopsPage();
     if (page === "workshop-detail") initWorkshopDetailPage();
     if (page === "dashboard") initDashboardPage();
+}
+
+function initStartupLoader() {
+    const loader = document.createElement("div");
+    loader.className = "startup-loader";
+    loader.setAttribute("aria-hidden", "true");
+    loader.innerHTML = `
+        <div class="startup-loader__inner">
+            <svg class="startup-loader__symbol" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="12" y="12" width="32" height="20" rx="6" stroke="currentColor" stroke-width="3"></rect>
+                <circle cx="24" cy="50" r="7.5" stroke="currentColor" stroke-width="3"></circle>
+                <circle cx="44" cy="40" r="7.5" stroke="currentColor" stroke-width="3"></circle>
+                <path d="M24 32V42M32 22H44M32 28H40M31 47H36" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path>
+            </svg>
+            <div class="startup-loader__track">
+                <span class="startup-loader__bar"></span>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(loader);
+    document.body.classList.add("app-loading");
+
+    const startedAt = Date.now();
+    let hidden = false;
+
+    return () => {
+        if (hidden) return;
+        hidden = true;
+
+        const elapsed = Date.now() - startedAt;
+        const waitTime = Math.max(0, LOADER_MIN_VISIBLE_MS - elapsed);
+
+        window.setTimeout(() => {
+            loader.classList.add("is-hidden");
+            document.body.classList.remove("app-loading");
+            window.setTimeout(() => loader.remove(), 480);
+        }, waitTime);
+    };
 }
 
 function initNav() {
