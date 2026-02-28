@@ -155,6 +155,38 @@ code {
     padding: 36px 0 58px;
 }
 
+.workshop-intro {
+    margin-top: 18px;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 18px;
+    background: linear-gradient(135deg, rgba(219, 234, 254, 0.86) 0%, rgba(239, 246, 255, 0.95) 100%);
+}
+
+.workshop-intro-title {
+    margin-bottom: 10px;
+    font-size: 1.35rem;
+    line-height: 1.25;
+}
+
+.workshop-intro-points {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+}
+
+.workshop-intro-points p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.52;
+    font-size: 0.94rem;
+}
+
+.workshop-intro-points strong {
+    color: var(--text);
+}
+
 h1,
 h2,
 h3,
@@ -293,11 +325,36 @@ h4 {
     gap: 8px;
 }
 
+.workshop-media {
+    margin: 0 0 6px;
+    height: 170px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(140deg, #dbeafe 0%, #c7ddff 100%);
+}
+
+.workshop-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .workshop-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
+}
+
+.workshop-summary {
+    margin: 0;
+    min-height: 68px;
+    line-height: 1.55;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .pill {
@@ -332,6 +389,34 @@ h4 {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     gap: 16px;
+}
+
+.auth-mode-switch {
+    margin: 14px 0 14px;
+    display: flex;
+    gap: 8px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 6px;
+    background: #f4f7ff;
+}
+
+.auth-mode-btn {
+    flex: 1;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 10px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.auth-mode-btn.active {
+    background: #ffffff;
+    color: #0f3f9a;
+    border-color: #bfdbfe;
 }
 
 .auth-card form {
@@ -527,6 +612,10 @@ h4 {
 
 @media (max-width: 920px) {
     .filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .workshop-intro {
         grid-template-columns: 1fr;
     }
 

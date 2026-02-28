@@ -1,6 +1,15 @@
 const API_BASE = "/api";
 const USER_KEY = "wh_user";
 const ENROLLMENTS_KEY = "wh_enrollments";
+const CATEGORY_IMAGE_MAP = {
+    "Web Development": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    "Mobile Development": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
+    "Data Science": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    "Cloud Computing": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    Design: "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80",
+    "Project Management": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+    General: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=80"
+};
 
 const STATE = {
     workshops: [],
@@ -25,11 +34,13 @@ function initNav() {
     const user = getUser();
     const navDashboard = byId("navDashboard");
     const navSignIn = byId("navSignIn");
+    const navRegister = byId("navRegister");
     const navWelcome = byId("navWelcome");
     const navLogout = byId("navLogout");
 
     if (navDashboard) navDashboard.style.display = user ? "inline-flex" : "none";
     if (navSignIn) navSignIn.style.display = user ? "none" : "inline-flex";
+    if (navRegister) navRegister.style.display = user ? "none" : "inline-flex";
     if (navWelcome) navWelcome.textContent = user ? `Hi, ${user.name}` : "";
     if (navLogout) navLogout.style.display = user ? "inline-flex" : "none";
 
@@ -43,43 +54,88 @@ function initNav() {
 
 function initSigninPage() {
     const form = byId("signinForm");
-    if (!form) return;
+    const registerForm = byId("registerForm");
+    if (!form && !registerForm) return;
+
+    const signInModeButton = byId("authModeSignIn");
+    const registerModeButton = byId("authModeRegister");
 
     const roleButtons = document.querySelectorAll(".role-btn");
     roleButtons.forEach((button) => {
         button.addEventListener("click", () => setSigninRole(button.dataset.role || "student"));
     });
 
-    form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const email = byId("signinEmail").value.trim();
-        const password = byId("signinPassword").value;
+    if (signInModeButton) signInModeButton.addEventListener("click", () => setAuthMode("signin"));
+    if (registerModeButton) registerModeButton.addEventListener("click", () => setAuthMode("register"));
 
-        if (!email || !password) {
-            setMessage("signinMessage", "Email and password are required.", true);
-            return;
-        }
+    if (form) {
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const email = byId("signinEmail").value.trim();
+            const password = byId("signinPassword").value;
 
-        try {
-            const user = await request("/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email,
-                    password,
-                    role: STATE.selectedRole
-                })
-            });
+            if (!email || !password) {
+                setMessage("signinMessage", "Email and password are required.", true);
+                return;
+            }
 
-            setUser(user);
-            setMessage("signinMessage", "Login successful.");
-            redirectAfterLogin(user);
-        } catch (error) {
-            setMessage("signinMessage", error.message, true);
-        }
-    });
+            try {
+                const user = await request("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        role: STATE.selectedRole
+                    })
+                });
+
+                setUser(user);
+                setMessage("signinMessage", "Login successful.");
+                redirectAfterLogin(user);
+            } catch (error) {
+                setMessage("signinMessage", error.message, true);
+            }
+        });
+    }
+
+    if (registerForm) {
+        registerForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const name = byId("registerName").value.trim();
+            const email = byId("registerEmail").value.trim();
+            const phone = byId("registerPhone").value.trim();
+            const password = byId("registerPassword").value;
+
+            if (!name || !email || !password) {
+                setMessage("registerMessage", "Name, email, and password are required.", true);
+                return;
+            }
+
+            try {
+                const user = await request("/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        phone,
+                        password,
+                        role: "student"
+                    })
+                });
+
+                setUser(user);
+                setMessage("registerMessage", "Account created successfully.");
+                redirectAfterLogin(user);
+            } catch (error) {
+                setMessage("registerMessage", error.message, true);
+            }
+        });
+    }
 
     setSigninRole("student");
+    setAuthMode(window.location.hash === "#register" ? "register" : "signin");
 }
 
 function setSigninRole(role) {
@@ -100,6 +156,25 @@ function setSigninRole(role) {
             ? "<strong>Admin:</strong> admin@hub.com / 123"
             : "<strong>User:</strong> user@workshop.com / user123";
     }
+}
+
+function setAuthMode(mode) {
+    const registerMode = mode === "register";
+    const signInModeButton = byId("authModeSignIn");
+    const registerModeButton = byId("authModeRegister");
+    const signinForm = byId("signinForm");
+    const registerForm = byId("registerForm");
+    const roleSwitch = byId("signinRoleSwitch");
+
+    if (signInModeButton) signInModeButton.classList.toggle("active", !registerMode);
+    if (registerModeButton) registerModeButton.classList.toggle("active", registerMode);
+
+    if (signinForm) signinForm.style.display = registerMode ? "none" : "block";
+    if (registerForm) registerForm.style.display = registerMode ? "block" : "none";
+    if (roleSwitch) roleSwitch.style.display = registerMode ? "none" : "flex";
+
+    setMessage("signinMessage", "");
+    setMessage("registerMessage", "");
 }
 
 function redirectAfterLogin(user) {
@@ -172,8 +247,14 @@ function renderWorkshopCards(workshops, user) {
         const full = workshop.capacity > 0 && workshop.enrolled >= workshop.capacity;
         const isCompleted = workshop.status === "completed";
         const alreadyEnrolled = enrollmentIds.includes(workshop.id);
+        const imageUrl = getWorkshopImage(workshop);
+        const summary = workshop.description || "Join this interactive session and learn through practical, guided activities.";
+        const signInTarget = `/signin.html?next=/workshop.html?id=${workshop.id}`;
 
-        let enrollControl = `<a class="btn btn-primary btn-sm" href="/signin.html?next=/workshop.html?id=${workshop.id}">Sign In To Enroll</a>`;
+        let enrollControl = `
+            <a class="btn btn-primary btn-sm" href="${signInTarget}">Sign In To Enroll</a>
+            <a class="btn btn-secondary btn-sm" href="/signin.html#register">Create Account</a>
+        `;
 
         if (isStudent) {
             const disabled = full || isCompleted || alreadyEnrolled;
@@ -187,11 +268,15 @@ function renderWorkshopCards(workshops, user) {
 
         return `
             <article class="card workshop-card">
+                <figure class="workshop-media">
+                    <img class="workshop-image" src="${escapeHtml(imageUrl)}" alt="${escapeHtml(workshop.title)} workshop">
+                </figure>
                 <div class="workshop-head">
                     <span class="pill">${escapeHtml(workshop.category)}</span>
                     <span class="status ${workshop.status === "completed" ? "done" : ""}">${escapeHtml(workshop.status)}</span>
                 </div>
                 <h3>${escapeHtml(workshop.title)}</h3>
+                <p class="muted workshop-summary">${escapeHtml(summary)}</p>
                 <p class="muted">Instructor: ${escapeHtml(workshop.instructor)}</p>
                 <p class="muted">Date: ${escapeHtml(workshop.date)}</p>
                 <p class="muted">Seats: ${workshop.enrolled}/${workshop.capacity}</p>
@@ -628,6 +713,13 @@ function getEnrollmentIds() {
 
 function saveEnrollmentIds(ids) {
     localStorage.setItem(ENROLLMENTS_KEY, JSON.stringify(ids));
+}
+
+function getWorkshopImage(workshop) {
+    const customThumbnail = String(workshop.thumbnail || "").trim();
+    if (customThumbnail) return customThumbnail;
+    const categoryImage = CATEGORY_IMAGE_MAP[workshop.category];
+    return categoryImage || CATEGORY_IMAGE_MAP.General;
 }
 
 function readJson(key, fallback) {
